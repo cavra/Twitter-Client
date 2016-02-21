@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LoginViewController
 //  Twitter
 //
 //  Created by Cory Avra on 2/14/16.
@@ -10,7 +10,7 @@ import UIKit
 import AFNetworking
 import BDBOAuth1Manager
 
-class ViewController: UIViewController {
+class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,20 +23,14 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
     // Actions
     @IBAction func onLogin(sender: AnyObject) {
+        TwitterClient.sharedInstance.login({ () -> () in
+            self.performSegueWithIdentifier("loginSegue", sender: nil)
+        }) { (error: NSError) -> () in
+            print(error.localizedDescription)
+        }
         
-        TwitterClient.sharedInstance.requestSerializer.removeAccessToken()
-        TwitterClient.sharedInstance.fetchRequestTokenWithPath("oauth/request_token" , method: "GET", callbackURL: NSURL(string: "cptwitterdemo://oauth"), scope: nil,
-            success: {(requestToken: BDBOAuth1Credential!) -> Void in
-                print("Got the request token")
-                let authURL = NSURL(string: "https://api.twitter.com/oauth/authorize?oauth_token=\(requestToken.token)")
-                UIApplication.sharedApplication().openURL(authURL!)
-            },
-            failure: {(error: NSError!) -> Void in
-                print("Failed to get the request token")
-            }
-        )
+       
     }
 }
