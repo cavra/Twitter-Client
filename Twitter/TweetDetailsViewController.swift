@@ -60,8 +60,8 @@ class TweetDetailsViewController: UIViewController {
         }
         
         self.tweet!.retweetCount += 1
-        
-        //refresh tableview
+                
+        //refresh the retweetCont
     }
     
     @IBAction func onFavoriteButton(sender: AnyObject) {
