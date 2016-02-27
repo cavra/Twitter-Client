@@ -82,7 +82,7 @@ class FeedViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let cell = view.superview as! TweetCell
             let indexPath = tableView.indexPathForCell(cell)
             
-            let userDataToPass = User(dictionary: (self.tweets?[indexPath!.row].user)!)
+            let userDataToPass = self.tweets?[indexPath!.row].user
             
             // Pass the user info to the destination controller
             let itemToAdd = segue.destinationViewController as! ProfileViewController

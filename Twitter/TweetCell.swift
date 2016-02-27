@@ -12,10 +12,12 @@ class TweetCell: UITableViewCell {
 
     // Outlets
     @IBOutlet weak var profileImageView: UIImageView!
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var screennameLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
+    
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var favoriteCountLabel: UILabel!
     
@@ -25,30 +27,29 @@ class TweetCell: UITableViewCell {
     // Variables
     var tweet: Tweet! {
         didSet {
-            nameLabel.text = tweet?.userName
-            screennameLabel.text = tweet?.userScreenname
-            tweetLabel.text = tweet?.text
 
-            if (tweet?.userProfileImageURL != nil) {
-                profileImageView.setImageWithURL((tweet?.userProfileImageURL!)!)
+            // Images
+            if (tweet?.user?.profileImageURL != nil) {
+                profileImageView.setImageWithURL((tweet?.user?.profileImageURL!)!)
 
                 // Some formatting
-                profileImageView.layer.cornerRadius = 3
+                profileImageView.layer.cornerRadius = 5
                 profileImageView.clipsToBounds = true
             }
             
-            // @todo figure out how to parse NSDate
-            let time = parseDate(tweet?.timestamp)
-            timestampLabel.text = time
+            // Texts
+            nameLabel.text = tweet?.user?.name
+            screennameLabel.text = "@\((tweet?.user?.screenname)!)"
+            tweetLabel.text = tweet?.text
+            timestampLabel.text = parseDate(tweet?.timestamp)
             
-            //Check for single or plural types
+            // Counts -- Check for single or plural types
             if (tweet?.retweetCount == 1) {
                 retweetCountLabel.text = "\(tweet.retweetCount) RETWEET"
             }
             else if (tweet?.retweetCount != nil) {
                 retweetCountLabel.text = "\(tweet.retweetCount) RETWEETS"
             }
-            
             if (tweet?.favoritesCount == 1) {
                 favoriteCountLabel.text = "\(tweet.favoritesCount) FAVORITE"
             }
@@ -60,8 +61,6 @@ class TweetCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-    
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

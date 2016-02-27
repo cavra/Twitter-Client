@@ -1,5 +1,5 @@
 //
-//  UserViewController.swift
+//  ProfileViewController.swift
 //  Twitter
 //
 //  Created by Cory Avra on 2/26/16.
@@ -9,10 +9,10 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
-
+    
     // Incoming Variables
     var user: User?
-
+    
     // Outlets
     @IBOutlet var profileDetailsView: ProfileDetails!
     
@@ -20,10 +20,9 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
 
         self.profileDetailsView.user = user
-
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

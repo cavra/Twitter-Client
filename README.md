@@ -59,19 +59,18 @@ My primary challenge was getting the retweeting and favoriting to work. It still
 
 
 # Project 5 - *Twitter Client*
-
-Time spent: **9** hours spent in total
+Time spent: **13** hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
 
-- [ ] Tweet Details Page: User can tap on a tweet to view it, with controls to retweet, favorite, and reply.
+- [x] Tweet Details Page: User can tap on a tweet to view it, with controls to retweet, favorite, and reply.
 - [x] Profile page:
-- [ ] Contains the user header view
-- [ ] Contains a section with the users basic stats: # tweets, # following, # followers
+- [x] Contains the user header view
+- [x] Contains a section with the users basic stats: # tweets, # following, # followers
 - [x] Home Timeline: Tapping on a user image should bring up that user's profile page
-- [ ] Compose Page: User can compose a new tweet by tapping on a compose button.
+- [x] Compose Page: User can compose a new tweet by tapping on a compose button.
 
 The following **optional** features are implemented:
 
@@ -93,8 +92,8 @@ The following **additional** features are implemented:
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1. How to add tap recognition to a button to segue to another controller
-2. 
+1. How to better implement tap recognition to a button to segue to another controller (I used an invisible button)
+2. How to use the same view controller for multiple purposes, like profile for current user and users of tweets
 
 ## Video Walkthrough 
 
@@ -107,6 +106,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ## Notes
 
 Describe any challenges encountered while building the app.
+
+My main challenges were with retrieving the data from the API.
 
 ## License
 

@@ -1,5 +1,5 @@
 //
-//  profileViewController.swift
+//  UserProfileViewController.swift
 //  Twitter
 //
 //  Created by Cory Avra on 2/26/16.
@@ -9,18 +9,19 @@
 import UIKit
 
 class UserProfileViewController: UIViewController {
-
-    // Variables
-    var userData: User!
-
+    
     // Outlets
-    @IBOutlet var profileDetailsView: ProfileDetails!
+    @IBOutlet var profileDetailsView: UserProfileDetails!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        // Get the data from the network
-        getDataFromTwitter()       
+        
+        // Pass the data to the ProfileDetails view
+        self.profileDetailsView.user = User.currentUser
+                
+    }
+    
+    override func viewWillAppear(animated: Bool) {
         
     }
     
@@ -29,16 +30,4 @@ class UserProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func getDataFromTwitter() {
-        // Get the account details
-        TwitterClient.sharedInstance.verifyCredentials({ (user: User) -> () in
-            
-            // Pass the data to the ProfileDetails view
-            self.profileDetailsView.user = user
-            
-            }, failure: { (error: NSError) -> () in
-                print(error.localizedDescription)
-        })
-    }
-
 }

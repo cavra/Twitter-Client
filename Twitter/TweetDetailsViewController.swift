@@ -32,13 +32,46 @@ class TweetDetailsViewController: UIViewController {
         
         if segue.identifier == "TweetToUserInfo" {
             
-            //get the tweeter's information
-            let userDataToPass = User(dictionary: (tweet?.user)!)
+            // Get the tweeter's information
+            let dataToPass = tweet?.user
             
             // Pass the info to the destination controller
             let itemToAdd = segue.destinationViewController as! ProfileViewController
-            itemToAdd.user = userDataToPass
+            itemToAdd.user = dataToPass
         }
+        
+        if segue.identifier == "segueToReply" {
+            
+            // Get the tweeter's information
+            let dataToPass = tweet?.postID
+            
+            // Pass the info to the destination controller
+            let navVC = segue.destinationViewController as! UINavigationController
+            let itemToAdd = navVC.viewControllers.first as! ComposeViewController
+            itemToAdd.replyToPostID = dataToPass
+        }
+        
+    }
+
+    // Actions
+    @IBAction func onRetweetButton(sender: AnyObject) {
+        TwitterClient.sharedInstance.retweet(tweet) { (tweet, error) -> () in
+            print(tweet)
+        }
+        
+        self.tweet!.retweetCount += 1
+        
+        //refresh tableview
+    }
+    
+    @IBAction func onFavoriteButton(sender: AnyObject) {
+        TwitterClient.sharedInstance.favorite(tweet) { (tweet, error) -> () in
+            print(tweet)
+        }
+        
+        self.tweet!.retweetCount += 1
+        
+        //refresh tableview
     }
 
 }
