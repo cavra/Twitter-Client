@@ -11,12 +11,12 @@ import UIKit
 class User: NSObject {
 
     // Variables
-    var name: NSString?
-    var screenname: NSString?
-    var tagline: NSString?
-    var profileImageURL: NSURL?
-    
     var dictionary: NSDictionary?
+    var name: String?
+    var screenname: String?
+    var tagline: String?
+    var profileImageURL: NSURL?
+    var backgroundImageURL: NSURL?
     
     // Deserialize the dictionary
     init(dictionary: NSDictionary) {
@@ -26,12 +26,15 @@ class User: NSObject {
         screenname = dictionary["screenname"] as? String
         tagline = dictionary["description"] as? String
         
-        let profileImageUrlString = dictionary["profile_image_url_https"] as? String
-        if let profileImageUrlString = profileImageUrlString {
-            profileImageURL = NSURL(string: profileImageUrlString)
+        let profileImageURLString = dictionary["profile_image_url_https"] as? String
+        if let profileImageURLString = profileImageURLString {
+            profileImageURL = NSURL(string: profileImageURLString)
         }
         
-        profileImageURL = dictionary["name"] as? NSURL
+        let backgroundImageURLString = dictionary["profile_background_image_url_https"] as? String
+        if let backgroundImageURLString = backgroundImageURLString {
+            backgroundImageURL = NSURL(string: backgroundImageURLString)
+        }
     }
 
     static let UserDidLogOutNotification = "UserDidLogout"
@@ -61,7 +64,6 @@ class User: NSObject {
             if let user = user {
                 let data = try!
                     NSJSONSerialization.dataWithJSONObject(user.dictionary!, options: [])
-                
                 defaults.setObject(data, forKey: "currentUserData")
             }
             else {

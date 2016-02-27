@@ -1,14 +1,14 @@
 //
-//  TweetCell.swift
+//  TweetDetails.swift
 //  Twitter
 //
-//  Created by Cory Avra on 2/20/16.
+//  Created by Cory Avra on 2/24/16.
 //  Copyright © 2016 coryavra. All rights reserved.
 //
 
 import UIKit
 
-class TweetCell: UITableViewCell {
+class TweetDetails: UIView {
 
     // Outlets
     @IBOutlet weak var profileImageView: UIImageView!
@@ -16,22 +16,19 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var screennameLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
-    @IBOutlet weak var retweetCountLabel: UILabel!
-    @IBOutlet weak var favoriteCountLabel: UILabel!
     
-    @IBOutlet weak var retweetButton: UIButton!
-    @IBOutlet weak var favoriteButton: UIButton!
-    
+    @IBOutlet weak var profileImageViewButton: UIButton!
+
     // Variables
     var tweet: Tweet! {
         didSet {
             nameLabel.text = tweet?.userName
             screennameLabel.text = tweet?.userScreenname
             tweetLabel.text = tweet?.text
-
+            
             if (tweet?.userProfileImageURL != nil) {
                 profileImageView.setImageWithURL((tweet?.userProfileImageURL!)!)
-
+                                
                 // Some formatting
                 profileImageView.layer.cornerRadius = 3
                 profileImageView.clipsToBounds = true
@@ -42,7 +39,7 @@ class TweetCell: UITableViewCell {
             timestampLabel.text = time
             
             //Check for single or plural types
-            if (tweet?.retweetCount == 1) {
+            /*if (tweet?.retweetCount == 1) {
                 retweetCountLabel.text = "\(tweet.retweetCount) RETWEET"
             }
             else if (tweet?.retweetCount != nil) {
@@ -54,39 +51,17 @@ class TweetCell: UITableViewCell {
             }
             else if (tweet?.favoritesCount != nil) {
                 favoriteCountLabel.text = "\(tweet.favoritesCount) FAVORITES"
-            }
+            }*/
         }
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-    
-    }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-        // Set the default first
-        let defaultBackgroundView = UIView()
-        defaultBackgroundView.backgroundColor = .None
-        self.backgroundView = defaultBackgroundView
-        
-        // Followed by the selected style
-        let selectedBackgroundView = UIView()
-        selectedBackgroundView.backgroundColor = UIColor.lightGrayColor()
-        self.selectedBackgroundView = selectedBackgroundView
-
-    }
-    
     func parseDate(date: NSDate?) -> String? {
         
         //@todo rewrite this
         if (date == nil) {
             return nil
         }
-
+        
         var outputTime: String = ""
         let calendar = NSCalendar.autoupdatingCurrentCalendar()
         let components = calendar.components([.Year, .Month, .Day, .Hour, .Minute, .Second], fromDate: date!, toDate: NSDate(), options: [])
@@ -107,24 +82,4 @@ class TweetCell: UITableViewCell {
         
         return outputTime
     }
-    
-    // Actions
-    @IBAction func onRetweetButton(sender: AnyObject) {
-        TwitterClient.sharedInstance.retweet(tweet) { (tweet, error) -> () in
-            print(tweet)
-        }
-        tweet.retweetCount += 1
-        
-        //refresh tableview
-    }
-    
-    @IBAction func onFavoriteButton(sender: AnyObject) {
-        TwitterClient.sharedInstance.favorite(tweet) { (tweet, error) -> () in
-            print(tweet)
-        }
-        tweet.favoritesCount += 1
-
-        //refresh tableview
-    }
-    
 }

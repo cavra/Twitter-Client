@@ -50,29 +50,40 @@ class TwitterClient: BDBOAuth1SessionManager {
         
         NSNotificationCenter.defaultCenter().postNotificationName(User.UserDidLogOutNotification, object: nil)
     }
-    
-    func retweet(postID: String?) {
-        POST("1.1/statuses/retweet/\(postID).json", parameters: nil,
+
+    func tweet(statusUpdate: String?, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        POST("1.1/statuses/update.json?status=\(statusUpdate)", parameters: nil,
             progress: { (NSProgress) -> Void in
-                print("Retweeting")
+                print("Tweeting...")
+            }, success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
+                print("Tweet successful")
+            }) { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
+                print(error.localizedDescription)
+        }
+    }
+    
+    func retweet(tweet: Tweet?, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        POST("1.1/statuses/retweet/\((tweet?.postID)!).json", parameters: nil,
+            progress: { (NSProgress) -> Void in
+                print("Retweeting...")
             }, success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
                 print("Retweet successful")
             }) { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
                 print(error.localizedDescription)
         }
     }
-    
-    func favorite(postID: String?) {
-        POST("1.1/favorites/create.json?id=\(postID)", parameters: nil,
+
+    func favorite(tweet: Tweet?, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        POST("1.1/favorites/create.json?id=\((tweet?.postID)!)", parameters: nil,
             progress: { (NSProgress) -> Void in
-                print("Retweeting")
+                print("Favoriting...")
             }, success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
-                print("Retweet successful")
+                print("Favorite successful")
             }) { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
                 print(error.localizedDescription)
         }
     }
-    
+
     func handleOpenUrl(url: NSURL) {
         fetchAccessTokenWithPath("oauth/access_token", method: "POST", requestToken: BDBOAuth1Credential(queryString: url.query),
             success: { (accessToken: BDBOAuth1Credential!) -> Void in
@@ -117,12 +128,24 @@ class TwitterClient: BDBOAuth1SessionManager {
             success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
                 let dictionaries = response as! [NSDictionary]
                 let tweets = Tweet.tweetsWithArray(dictionaries)
-                
                 success(tweets)
             },
             failure: { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
                 failure(error)
         })
     }
+    
+    /*
+    
+    func getProfileBanner(user: User?, completion: (banner: Tweet?, error: NSError?) -> ()) {
+        POST("1.1/users/profile_banner.json?screen_name=twitterapi", parameters: nil,
+            progress: { (NSProgress) -> Void in
+                print("Getting the profile banner...")
+            }, success: { (operation: NSURLSessionDataTask, response: AnyObject?) -> Void in
+                print("Banner get!")
+            }) { (operation: NSURLSessionDataTask?, error: NSError) -> Void in
+                print(error.localizedDescription)
+        }
+    }*/
     
 }
