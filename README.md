@@ -1,6 +1,6 @@
 # Project 4 - *Twitter Client*
 
-**Twitter CLient** is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
+**Twitter Client** is a basic twitter app to read and compose tweets using the [Twitter API](https://apps.twitter.com/).
 
 Time spent: **12** hours spent in total
 
